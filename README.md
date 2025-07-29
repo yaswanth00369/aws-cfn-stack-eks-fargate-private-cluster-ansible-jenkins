@@ -1,2 +1,14 @@
-# aws-cfn-stack-eks-fargate-private-cluster-ansible-jenkins
-Infrastructure-as-Code project to deploy an Amazon EKS Cluster (with Fargate) in a private subnet using CloudFormation. The EKS API is accessible only via a bastion EC2 instance. Deployment is automated via Ansible and Jenkins.
+# EKS Fargate Cluster in Private Subnets (with EC2 Access)
+
+This repository provisions a private Amazon EKS Cluster with Fargate profiles using CloudFormation, accessible only via an EC2 bastion host. Deployment is automated through Ansible and Jenkins CI/CD.
+
+---
+
+## 🔧 Technologies Used
+
+- **CloudFormation**: VPC, EKS Cluster, Fargate profile, EC2, IAM
+- **Ansible**: Automation of stack deployment
+- **Jenkins**: CI/CD pipeline
+- **kubectl + Helm**: Installed in EC2 for Kubernetes operations
+
+---
