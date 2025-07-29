@@ -30,15 +30,15 @@
     - name: ✅ Print Outputs (when Present)
       when: state == 'present'
       block:
-        - name: 🔍 Print EC2 Instance ID
+        - name: 🔍 Print EKSClientInstanceId
           when: "'EKSClientInstanceId' in stack_result.stack_outputs"
           debug:
-            msg: "✅ EC2 Instance ID: {{ stack_result.stack_outputs['EKSClientInstanceId'] }}"
+            msg: "✅ EKSClientInstanceId: {{ stack_result.stack_outputs['EKSClientInstanceId'] }}"
 
-        - name: 🔍 Print EC2 Public IP
+        - name: 🔍 Print EKSClientPublicIP
           when: "'EKSClientPublicIP' in stack_result.stack_outputs"
           debug:
-            msg: "🌐 EC2 Public IP: {{ stack_result.stack_outputs['EKSClientPublicIP'] }}"
+            msg: "🌐 EKSClientPublicIP: {{ stack_result.stack_outputs['EKSClientPublicIP'] }}"
 
         - name: 🔍 Print EKS Cluster Name
           when: "'EKSClusterName' in stack_result.stack_outputs"
