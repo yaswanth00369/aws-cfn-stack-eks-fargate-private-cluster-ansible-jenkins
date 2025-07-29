@@ -4,13 +4,13 @@
   gather_facts: false
 
   vars:
-    stack_name: EC2-Stack
-    template_file: ../AWS-CF-Templates/EC2-CFT.yaml
+    stack_name: Project-Stack
+    template_file: ../AWS-CF-Templates/main-stack.yaml
     region: ap-south-1
     state: present  # Change to 'absent' to delete the stack
 
   tasks:
-    - name: 📦 Manage CloudFormation Stack for EC2
+    - name: 📦 Manage CloudFormation Stack for EC2 and EKS
       amazon.aws.cloudformation:
         stack_name: "{{ stack_name }}"
         state: "{{ state }}"
@@ -27,17 +27,33 @@
       debug:
         var: stack_result
 
-    - name: ✅ Print EC2 Instance ID and Success Message (Present)
+    - name: ✅ Print Outputs (when Present)
       when: state == 'present'
       block:
-        - name: 🔍 Print EC2 Instance ID (if available)
-          when: "'InstanceId' in stack_result.stack_outputs"
+        - name: 🔍 Print EC2 Instance ID
+          when: "'EKSClientInstanceId' in stack_result.stack_outputs"
           debug:
-            msg: "✅ EC2 Instance ID: {{ stack_result.stack_outputs['InstanceId'] }}"
+            msg: "✅ EC2 Instance ID: {{ stack_result.stack_outputs['EKSClientInstanceId'] }}"
+
+        - name: 🔍 Print EC2 Public IP
+          when: "'EKSClientPublicIP' in stack_result.stack_outputs"
+          debug:
+            msg: "🌐 EC2 Public IP: {{ stack_result.stack_outputs['EKSClientPublicIP'] }}"
+
+        - name: 🔍 Print EKS Cluster Name
+          when: "'EKSClusterName' in stack_result.stack_outputs"
+          debug:
+            msg: "☸️ EKS Cluster Name: {{ stack_result.stack_outputs['EKSClusterName'] }}"
 
         - name: ✅ Stack deployed message
           debug:
             msg: "✅ Stack '{{ stack_name }}' deployed successfully in region '{{ region }}'"
+
+        - name: 🧩 Print Kubeconfig Generation Command
+          debug:
+            msg: |
+              📄 To generate kubeconfig on the EC2 instance, run:
+              aws eks update-kubeconfig --region {{ region }} --name {{ stack_result.stack_outputs['EKSClusterName'] }}
 
     - name: 🗑️ Stack deletion success message (Absent)
       when: state == 'absent'
