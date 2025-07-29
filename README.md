@@ -119,3 +119,34 @@ After successful stack creation, it will print:
 ✅ EKSClusterName — for building the kubeconfig or referencing the cluster in scripts.
 
 ---
+
+## Jenkins Pipeline
+
+<img width="1300" height="738" alt="image" src="https://github.com/user-attachments/assets/76c11dce-8896-4e81-ae74-08245f60e27f" />
+
+### Jenkins Deployment Logs
+
+<img width="1300" height="738" alt="image" src="https://github.com/user-attachments/assets/6c1a2cba-1992-4865-9177-ad32de704ef6" />
+
+---
+
+## AWS CNF Stack Status
+
+<img width="1300" height="738" alt="image" src="https://github.com/user-attachments/assets/b73f0ecd-e6c3-4d9a-acf1-c20c2a349573" />
+
+### VCP Resource Map
+
+<img width="1300" height="738" alt="image" src="https://github.com/user-attachments/assets/e87a99f3-1907-42f8-8b6a-62b987927db8" />
+
+
+### EKS Cluster
+
+<img width="1300" height="738" alt="image" src="https://github.com/user-attachments/assets/327c4b7d-0d28-4d5b-a3b5-5fee3aa33589" />
+
+### EKS Client Instance
+
+<img width="1300" height="738" alt="image" src="https://github.com/user-attachments/assets/d47b9cb7-05ff-48d5-bb83-c895d44e026b" />
+
+### Access EKS Cluster from client instance
+
+<img width="1300" height="738" alt="image" src="https://github.com/user-attachments/assets/1cb1fdfd-6eeb-4028-92df-b089a61e8271" />
