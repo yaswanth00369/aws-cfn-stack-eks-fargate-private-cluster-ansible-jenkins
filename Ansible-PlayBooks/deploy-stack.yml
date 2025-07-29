@@ -1,0 +1,45 @@
+- name: 🚀 Deploy or Delete CloudFormation Stack for EKS with Fargate
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    stack_name: EC2-Stack
+    template_file: ../AWS-CF-Templates/EC2-CFT.yaml
+    region: ap-south-1
+    state: present  # Change to 'absent' to delete the stack
+
+  tasks:
+    - name: 📦 Manage CloudFormation Stack for EC2
+      amazon.aws.cloudformation:
+        stack_name: "{{ stack_name }}"
+        state: "{{ state }}"
+        region: "{{ region }}"
+        template_body: "{{ lookup('file', template_file) if state == 'present' else '' }}"
+        capabilities:
+          - CAPABILITY_NAMED_IAM
+        tags:
+          Environment: Dev
+          Owner: DevOps
+      register: stack_result
+
+    - name: 🧾 Print full stack_result for debugging
+      debug:
+        var: stack_result
+
+    - name: ✅ Print EC2 Instance ID and Success Message (Present)
+      when: state == 'present'
+      block:
+        - name: 🔍 Print EC2 Instance ID (if available)
+          when: "'InstanceId' in stack_result.stack_outputs"
+          debug:
+            msg: "✅ EC2 Instance ID: {{ stack_result.stack_outputs['InstanceId'] }}"
+
+        - name: ✅ Stack deployed message
+          debug:
+            msg: "✅ Stack '{{ stack_name }}' deployed successfully in region '{{ region }}'"
+
+    - name: 🗑️ Stack deletion success message (Absent)
+      when: state == 'absent'
+      debug:
+        msg: "🗑️ Stack '{{ stack_name }}' deleted successfully from region '{{ region }}'"
