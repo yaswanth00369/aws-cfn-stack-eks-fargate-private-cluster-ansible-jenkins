@@ -221,7 +221,7 @@ Resources:
       Roles:
         - !Ref EC2AdminRole
 
-  EC2Instance:
+  EKSClientInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
       InstanceType: !Ref InstanceType
@@ -250,7 +250,7 @@ Resources:
           helm version
       Tags:
         - Key: Name
-          Value: EKS-Client
+          Value: EKS-Client-Instance
 
 
   EKSClusterAdditionalSecurityGroup:
@@ -266,6 +266,8 @@ Resources:
       Tags:
         - Key: Name
           Value: EKS Cluster Additional SG
+        - Key: "kubernetes.io/cluster/${AWS::StackName}-EKSCluster"
+          Value: owned
 
 
   EKSClusterRole:
@@ -284,8 +286,6 @@ Resources:
       - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
       - arn:aws:iam::aws:policy/AmazonEKSServicePolicy
       - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
-      - arn:aws:iam::aws:policy/AdministratorAccess
-
 
   FargateProfileRole:
     Type: AWS::IAM::Role
@@ -302,7 +302,7 @@ Resources:
       ManagedPolicyArns:
       - arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy
 
-  Cluster:
+  EKSCluster:
     Type: AWS::EKS::Cluster
     Properties:
       Name: !Sub ${AWS::StackName}-EKSCluster
@@ -324,9 +324,9 @@ Resources:
 
   FargateProfile:
     Type: AWS::EKS::FargateProfile
-    DependsOn: Cluster
+    DependsOn: EKSCluster
     Properties:
-      ClusterName: !Ref Cluster
+      ClusterName: !Ref EKSCluster
       FargateProfileName: !Sub ${AWS::StackName}-FargateProfile
       PodExecutionRoleArn: !GetAtt FargateProfileRole.Arn
       Subnets: 
@@ -337,3 +337,19 @@ Resources:
       - Namespace: kube-system
       - Namespace: aws-observability
       - Namespace: fargate-container-insights
+
+Outputs:
+  EKSClientInstanceId:
+    Value: !Ref EKSClientInstance
+    Export:
+      Name: EKSClientInstanceId
+
+  EKSClientPublicIP:
+    Value: !GetAtt EKSClientInstance.PublicIp
+    Export:
+      Name: EKSClientPublicIP
+
+  EKSClusterName:
+    Value: !Ref EKSCluster
+    Export:
+      Name: EKSClusterName
