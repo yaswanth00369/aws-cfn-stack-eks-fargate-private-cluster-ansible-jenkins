@@ -13,6 +13,16 @@ This repository provisions a private Amazon EKS Cluster with Fargate profiles us
 
 ---
 
+
+## 🧱 Architecture
+
+> ✅ GitHub → Jenkins → Ansible Agent → AWS CloudFormation → EKS Cluster Provisioning
+
+<img width="6284" height="3204" alt="image" src="https://github.com/user-attachments/assets/e47556d4-eb4b-4da1-8193-fb0785e56274" />
+
+
+---
+
 ## ✅ Typical Use Case
 You'd use this stack when you want:
 
