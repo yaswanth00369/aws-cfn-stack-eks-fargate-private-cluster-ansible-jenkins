@@ -10,10 +10,10 @@ pipeline {
             steps {
                 dir("${WORKSPACE}") {
                     // Run this if you want to deploy the stack
-                    sh 'ansible-playbook Ansible-PlayBooks/deploy-stack.yml'
+                    // sh 'ansible-playbook Ansible-PlayBooks/deploy-stack.yml'
 
                     // Run this if you want to delete the stack
-                    // sh 'ansible-playbook Ansible-PlayBooks/deploy-stack.yml --extra-vars "state=absent"'
+                    sh 'ansible-playbook Ansible-PlayBooks/deploy-stack.yml --extra-vars "state=absent"'
                 }
             }
         }
