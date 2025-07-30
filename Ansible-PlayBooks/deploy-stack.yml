@@ -51,9 +51,10 @@
 
         - name: 🧩 Print Kubeconfig Generation Command
           debug:
-            msg: |
-              📄 To generate kubeconfig on the EC2 instance, run:
-              aws eks update-kubeconfig --region {{ region }} --name {{ stack_result.stack_outputs['EKSClusterName'] }}
+            msg:
+              - "📄 To generate kubeconfig on the EC2 instance - first configure AWS credentials on the EKS client instance."
+              - "💻 Command: aws eks update-kubeconfig --region {{ region }} --name {{ stack_result.stack_outputs['EKSClusterName'] }}"
+
 
     - name: 🗑️ Stack deletion success message (Absent)
       when: state == 'absent'
